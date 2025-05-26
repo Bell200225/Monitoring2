@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>BPBD KOTA BINJAI</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      font-family: 'Poppins', Arial, sans-serif;
+      margin: 0;
+      padding: 15px 10px 30px;
+      background: linear-gradient(135deg, #f2994a 0%, #f2c94c 100%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+      color: #222;
+    }
+    header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 5px;
+    }
+    header img {
+      height: 60px;
+      width: 60px;
+      object-fit: contain;
+      filter: drop-shadow(0 2px 2px rgba(0,0,0,0.3));
+    }
+    h1 {
+      margin: 0;
+      font-size: 2.8em;
+      font-weight: 900;
+      color: #fff5e6;
+      text-shadow: 1px 1px 4px rgba(0,0,0,0.5);
+    }
+    h2 {
+      margin: 8px 0 25px;
+      color: #fbe8b6;
+      font-weight: 600;
+      text-align: center;
+      font-style: italic;
+      font-size: 1.2em;
+      max-width: 360px;
+      text-shadow: 1px 1px 3px rgba(0,0,0,0.3);
+    }
+    .container {
+      width: 100%;
+      max-width: 460px;
+      background: #fff7e6dd;
+      border-radius: 20px;
+      padding: 25px 25px 40px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+      backdrop-filter: saturate(180%) blur(15px);
+    }
+    form {
+      display: flex;
+      flex-direction: column;
+    }
+    label {
+      margin-top: 12px;
+      font-weight: 700;
+      font-size: 1em;
+      color: #bb6d00;
+    }
+    input[type="date"],
+    select,
+    textarea {
+      width: 100%;
+      margin-top: 6px;
+      padding: 10px 14px;
+      font-size: 1em;
+      font-family: inherit;
+      border: none;
+      border-radius: 12px;
+      box-shadow: 0 3px 7px rgba(187,109,0,0.3);
+      background-color: #fff4e1;
+    }
+    button {
+      margin-top: 20px;
+      padding: 14px 0;
+      font-size: 1.15em;
+      font-weight: 800;
+      border: none;
+      border-radius: 14px;
+      background: linear-gradient(90deg, #f2994a 0%, #f2c94c 100%);
+      color: #5d2900;
+      cursor: pointer;
+      box-shadow: 0 6px 15px rgba(242,201,76,0.55);
+    }
+    .notification {
+      margin-top: 20px;
+      padding: 12px 15px;
+      background-color: #d4edda;
+      color: #155724;
+      border: 1px solid #c3e6cb;
+      border-radius: 6px;
+      display: none;
+      font-weight: 600;
+      text-align: center;
+    }
+    .notification-error {
+      background-color: #f8d7da;
+      color: #721c24;
+      border-color: #f5c6cb;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <img src="bpbdlogo.png" alt="Logo BPBD Indonesia" />
+    <h1>BPBD KOTA BINJAI</h1>
+  </header>
+  <h2>Monitoring dan Rekapitulasi Kejadian Bencana dan Kegiatan Penanggulangan</h2>
+  <main class="container">
+    <form id="incidentForm" novalidate autocomplete="off">
+      <label for="dateInput">Tanggal Kejadian / Kegiatan</label>
+      <input type="date" id="dateInput" required aria-required="true" />
+
+      <label for="incidentSelect">Jenis Kejadian / Kegiatan</label>
+      <select id="incidentSelect" required>
+         <option value="" selected disabled>Pilih jenis kejadian</option>
+         <option value="Kebakaran">Kebakaran</option>
+         <option value="Banjir">Banjir</option>
+         <option value="Angin Puting Beliung">Angin Puting Beliung</option>
+         <option value="Tanah Longsor">Tanah Longsor</option>
+         <option value="Pohon Tumbang">Pohon Tumbang</option>
+         <option value="Pemotongan Cincin">Pemotongan Cincin</option>
+         <option value="Evakuasi Korban">Evakuasi Korban</option>
+         <option value="Evakuasi Hewan">Evakuasi Hewan</option>
+         <option value="Gotong Royong">Gotong Royong</option>
+         <option value="Lainnya">Lainnya</option>
+      </select>
+
+
+      <label for="descriptionInput">Penjelasan Kejadian / Kegiatan</label>
+      <textarea id="descriptionInput" required maxlength="300" placeholder="Deskripsi singkat kejadian"></textarea>
+
+      <label for="lossInput">Kerugian</label>
+      <textarea id="lossInput" required maxlength="300" placeholder="Deskripsi kerugian"></textarea>
+
+      <button type="submit">Tambah Kejadian / Kegiatan</button>
+    </form>
+
+    <div class="notification" id="successNotification">Data terkirim dengan sukses!</div>
+  </main>
+
+  <script>
+    const form = document.getElementById('incidentForm');
+    const successNotification = document.getElementById('successNotification');
+
+    form.addEventListener('submit', async e => {
+      e.preventDefault();
+      const dateValue = document.getElementById('dateInput').value;
+      const incidentValue = document.getElementById('incidentSelect').value;
+      const descValue = document.getElementById('descriptionInput').value.trim();
+      const lossValue = document.getElementById('lossInput').value.trim();
+
+      if (!dateValue || !incidentValue || !descValue || !lossValue) {
+        showNotification('Mohon lengkapi semua field.', true);
+        return;
+      }
+
+      const scriptURL = 'https://script.google.com/macros/s/AKfycbwImx0z8fjgH78xTs8dFYUy_JtJloSmv5BvsluEPPLOLLpn4FMnJcgbXf3BUUCLUQBeyg/exec';
+
+      try {
+        await fetch(scriptURL, {
+          method: 'POST',
+          mode: 'no-cors',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            kejadian_tanggal: dateValue,
+            incident: incidentValue,
+            description: descValue,
+            loss: lossValue
+          })
+        });
+        form.reset();
+        showNotification('Data terkirim dengan sukses!', false);
+      } catch (error) {
+        showNotification('Terjadi kesalahan saat mengirim data.', true);
+      }
+    });
+
+    function showNotification(message, isError) {
+      successNotification.textContent = message;
+      successNotification.classList.toggle('notification-error', isError);
+      successNotification.style.display = 'block';
+      setTimeout(() => {
+        successNotification.style.display = 'none';
+      }, 3000);
+    }
+  </script>
+</body>
+</html>
