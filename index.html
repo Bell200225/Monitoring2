@@ -116,29 +116,32 @@
   <h2>Monitoring dan Rekapitulasi Kejadian Bencana dan Kegiatan Penanggulangan</h2>
   <main class="container">
     <form id="incidentForm" novalidate autocomplete="off">
-      <label for="dateInput">Tanggal Kejadian</label>
+      <label for="dateInput">Tanggal Kejadian / Kegiatan</label>
       <input type="date" id="dateInput" required aria-required="true" />
 
-      <label for="incidentSelect">Jenis Kejadian</label>
+      <label for="incidentSelect">Jenis Kejadian / Kegiatan</label>
       <select id="incidentSelect" required>
-        <option value="" selected disabled>Pilih jenis kejadian</option>
-        <option value="Kebakaran">Kebakaran</option>
-        <option value="Banjir">Banjir</option>
-        <option value="Gotong Royong">Gotong Royong</option>
-        <option value="Evakuasi Hewan">Evakuasi Hewan</option>
-        <option value="Evakuasi Korban">Evakuasi Korban</option>
-        <option value="Puting Beliung">Puting Beliung</option>
-        <option value="Tanah Longsor">Tanah Longsor</option>
-        <option value="Lainnya">Lainnya</option>
+         <option value="" selected disabled>Pilih jenis kejadian</option>
+         <option value="Kebakaran">Kebakaran</option>
+         <option value="Banjir">Banjir</option>
+         <option value="Angin Puting Beliung">Angin Puting Beliung</option>
+         <option value="Tanah Longsor">Tanah Longsor</option>
+         <option value="Pohon Tumbang">Pohon Tumbang</option>
+         <option value="Pemotongan Cincin">Pemotongan Cincin</option>
+         <option value="Evakuasi Korban">Evakuasi Korban</option>
+         <option value="Evakuasi Hewan">Evakuasi Hewan</option>
+         <option value="Gotong Royong">Gotong Royong</option>
+         <option value="Lainnya">Lainnya</option>
       </select>
 
-      <label for="descriptionInput">Penjelasan Kejadian</label>
+
+      <label for="descriptionInput">Penjelasan Kejadian / Kegiatan</label>
       <textarea id="descriptionInput" required maxlength="300" placeholder="Deskripsi singkat kejadian"></textarea>
 
       <label for="lossInput">Kerugian</label>
       <textarea id="lossInput" required maxlength="300" placeholder="Deskripsi kerugian"></textarea>
 
-      <button type="submit">Tambah Kejadian</button>
+      <button type="submit">Tambah Kejadian / Kegiatan</button>
     </form>
 
     <div class="notification" id="successNotification">Data terkirim dengan sukses!</div>
